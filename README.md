@@ -23,22 +23,24 @@ Before using the Markdown library, ensure you have the following installed:
 
 Installation
 
-	1.	Create a New Project Directory:
+1.	Create a New Project Directory:
 
 ```
 mkdir markdown-example
 cd markdown-example
 ```
 
-	2.	Initialize a New Go Module:
+2.	Call
+```
+go get github.com/ms1963/markdown
+```
+
+4.	Initialize a New Go Module:
 
 ```   go mod init markdown-example   ```
 
 
-	3.	Create the Library File:
-Create a file named markdown.go and copy the library code into it.
-	4.	Create the Test File:
-Create a file named markdown_test.go and copy the unit tests into it.
+5.	Create Your Code
 
 ### Example Usage
 
@@ -87,17 +89,17 @@ func main() {
 
 ### Explanation of the Example
 
-	1.	Initialization:
-	•	The markdown.New function initializes a new Markdown object, allowing you to specify the desired flavor (standard Markdown syntax) and whether to enable color support for text formatting.
-	2.	Adding Front Matter:
-	•	The FrontMatter method adds metadata to the document in YAML format, which is often used in Markdown files to provide additional information about the document (like title, author, and date).
-	3.	Adding Content:
-	•	The Heading method creates a main title for the document.
-	•	The Paragraph method adds a paragraph to the document. In this example, the text “bold” is formatted using Markdown syntax for bold text.
-	•	The List method generates an unordered list with the specified items.
-	•	The CodeBlock method adds a block of code, specifying the programming language for syntax highlighting.
-	4.	Output:
-	•	Finally, GetContent returns the complete Markdown content as a string, which is printed to the console.
+	
+ 1.	Initialization:
+The markdown.New function initializes a new Markdown object, allowing you to specify the desired flavor (standard Markdown syntax) and whether to enable color support for text formatting.
+2.	Adding Front Matter:
+The FrontMatter method adds metadata to the document in YAML format, which is often used in Markdown files to provide additional information about the document (like title, author, and date).
+3.	Adding Content:
+The Heading method creates a main title for the document.
+The Paragraph method adds a paragraph to the document. In this example, the text “bold” is formatted using Markdown syntax for bold text.
+4. 	The List method generates an unordered list with the specified items.
+The CodeBlock method adds a block of code, specifying the programming language for syntax highlighting.
+Output: Finally, GetContent returns the complete Markdown content as a string, which is printed to the console.
 
 ### Output of the Example
 
@@ -137,23 +139,22 @@ The API of the Markdown library is designed to provide clear and intuitive acces
 
 ### 1. `New(flavor int, useColor bool) *Markdown`
 - **Purpose**: Initializes a new Markdown object.
-- **Parameters**:
+- **Parameters:**:
   - `flavor`: The Markdown flavor (e.g., `StandardMarkdown`).
   - `useColor`: Boolean indicating if color support is enabled.
-- **Results**: Returns a pointer to the new `Markdown` object.
-- **Example**:
+- **Results:**: Returns a pointer to the new `Markdown` object.
+- **Example:**:
   ```
   md := markdown.New(markdown.StandardMarkdown, false)
   ```
-  
-•	Output: Initializes a new Markdown object ready for use.
+- **Output**: Initializes a new Markdown object ready for use.
 
-2. FrontMatter(metadata map[string]string)
-•	Purpose: Adds front matter metadata in YAML format.
-•	Parameters:
-•		metadata: A map of metadata key-value pairs.
-•	Results: None.
-•	Example:
+### 2. `FrontMatter(metadata map[string]string)`
+- **Purpose:** Adds front matter metadata in YAML format.
+- **Parameters:**
+  - metadata: A map of metadata key-value pairs.
+- **Results:** None.
+- **Example:**
 ```
 md.FrontMatter(map[string]string{
     "title":  "Document Title",
@@ -162,7 +163,7 @@ md.FrontMatter(map[string]string{
 })
 ```
 
-•	Output:
+- **Output:**
 ```
 ---
 title: "Document Title"
@@ -172,79 +173,72 @@ date: "2024-10-14"
 ```
 
 
-3. Heading(level int, text string, id string, attributes string)
-•	Purpose: Adds a heading with optional ID and attributes.
-•	Parameters:
-•		level: The heading level (1-6).
-•		text: The heading text.
-•		id: Optional ID for linking.
-•		attributes: Optional additional attributes.
-•	Results: None.
-•	Example:
+### 3. `Heading(level int, text string, id string, attributes string)`
+- **Purpose:** Adds a heading with optional ID and attributes.
+- **Parameters:**
+- level: The heading level (1-6).
+- text: The heading text.
+- id: Optional ID for linking.
+- attributes: Optional additional attributes.
+- **Results:** None.
+- **Example:**
 
 ```
 md.Heading(1, "Main Title", "", "")
 ```
 
-•	Output:
+- **Output:**
 ```
 # Main Title
 ```
 
 
-4. Paragraph(text string, formats ...string)
-•	Purpose: Adds a paragraph with optional formatting.
-•	Parameters:
-
-•		text: The paragraph text.
-		•	formats: Optional formatting styles (e.g., “bold”).
-•	Results: None.
-•	Example:
+### 4. `Paragraph(text string, formats ...string)`
+- **Purpose:** Adds a paragraph with optional formatting.
+- **Parameters:**
+- text: The paragraph text.
+- formats: Optional formatting styles (e.g., “bold”).
+**Results:** None.
+- **Example**:
 
 ```
 md.Paragraph("This is a sample paragraph with **bold** text.")
 ```
 
-•	Output:
+- **Output:**
 ```
 This is a sample paragraph with **bold** text.
 ```
 
 
-5. CodeBlock(language string, code string)
-
-	•	Purpose: Inserts a code block with syntax highlighting.
-	•	Parameters:
-	•	language: Programming language for highlighting.
-	•	code: The code to include in the block.
-	•	Results: None.
-	•	Example:
-
+### 5.  `CodeBlock(language string, code string)
+- **Purpose:** Inserts a code block with syntax highlighting.
+- **Parameters:**
+- language: Programming language for highlighting.
+- code: The code to include in the block.
+- Results: None.
+- **Example:**
+```
 md.CodeBlock("go", `fmt.Println("Hello, Markdown!")`)
+```
 
-
-	•	Output:
+- **Output:**
 
 ```go
 fmt.Println("Hello, Markdown!")
+```
 
-
-
-
-
-6. Image(altText string, url string)
-
-	•	Purpose: Inserts an image with alt text and URL.
-	•	Parameters:
-	•	altText: Alternative text for the image.
-	•	url: URL of the image source.
-	•	Results: None.
-	•	Example:
+### 6. Image(altText string, url string)
+- **Purpose:** Inserts an image with alt text and URL.
+- **Parameters:**
+- altText: Alternative text for the image.
+- url: URL of the image source.
+- **Results**: None. **
+- **Example:**
 
 md.Image("Alt text", "https://example.com/image.png")
 
-
-	•	Output:
+- **Output:**
 
 ![Alt text](https://example.com/image.png)
 
