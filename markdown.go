@@ -1,5 +1,5 @@
 /***************** markdown package**********************************
-The Go library make_markdown provides functions used to create 
+The Go library markdown provides functions used to create 
 Markdown documents in Go programs. 
 
 It follows the guidelines for Markdown files and covers most of
