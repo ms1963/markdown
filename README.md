@@ -30,12 +30,12 @@ mkdir markdown-example
 cd markdown-example
 ```
 
-2.	Call
+2.	Getting the library to your computer
 ```
 go get github.com/ms1963/markdown
 ```
 
-4.	Initialize a New Go Module:
+4.	Initialize a new Go module in your project directory:
 
 ```   go mod init markdown-example   ```
 
