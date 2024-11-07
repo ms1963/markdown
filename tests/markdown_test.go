@@ -3,7 +3,7 @@ package markdown_test
 import (
     "testing"
 
-    "markdown" // Replace with your actual package import path
+    "github.com/ms1963/markdown" // Replace with your actual package import path
 )
 
 // Helper function to compare expected and actual output.

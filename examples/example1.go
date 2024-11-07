@@ -2,7 +2,7 @@ package main
 
 import (
 	"fmt"
-	"markdown/pkg/markdown"
+	"github.com/ms1963/markdown"
 )
 
 func main() {
