@@ -1,483 +1,631 @@
-Markdown Generation Library: Developer Manual
+#Developer Guide for Markdown Library
 
-Table of Contents
+##Introduction
 
-	1.	Introduction
-	2.	Installation
-	3.	Basic Usage
-	4.	API Documentation
-	•	Headings
-	•	Paragraphs
-	•	Lists
-	•	Links
-	•	Images
-	•	Code Blocks
-	•	Math Blocks
-	•	Blockquotes
-	•	Horizontal Rules
-	•	Tables
-	•	Footnotes
-	•	Task Lists
-	•	Custom Divs
-	•	Emoji
-	5.	Advanced Features
-	•	Front Matter
-	•	Table of Contents
-	•	Mermaid Diagrams
-	•	Markdown to HTML Conversion
-	6.	Escaping Special Characters
-	7.	Best Practices
-	8.	Testing
-	9.	Contributing
+The Markdown library is a powerful Go package designed for developers to create Markdown-formatted content programmatically. Markdown is a widely-used lightweight markup language that enables you to format plain text, making it suitable for various applications, such as documentation, README files, and blogs. This library simplifies the process of generating Markdown text by providing a rich set of functions that correspond to Markdown syntax elements.
 
-1. Introduction
+Key Features
 
-This Go Markdown library is designed to allow developers to easily generate Markdown documents programmatically. The library supports a wide range of Markdown features, including basic elements like headings, paragraphs, lists, as well as advanced elements like tables, footnotes, code blocks, and custom divs.
+	•	Flexible Formatting: Supports various text styles (e.g., bold, italic, strikethrough) to enhance content readability.
+	•	Structured Document Creation: Easily create documents with headings, lists, tables, and more, allowing for organized content presentation.
+	•	Custom Elements: Add task lists and custom divs (e.g., alerts, notes) to cater to specific formatting needs.
+	•	HTML Conversion: Convert Markdown documents to HTML format for easy web integration.
+	•	Best Practices: This library follows Markdown best practices, ensuring that the generated output is both standardized and consistent with common Markdown parsers.
 
-2. Installation
+##Getting Started
 
-To use this library, you will need to install it as a Go module.
+Prerequisites
 
-	1.	Ensure Go is installed on your system. You can download it from https://golang.org/dl/.
-	2.	Initialize a Go module (if you haven’t already):
+Before using the Markdown library, ensure you have the following installed:
 
-go mod init your-module-name
+	•	Go: Version 1.16 or later is recommended.
+	•	Code Editor or IDE: Any editor or IDE that supports Go, such as Visual Studio Code, GoLand, or Sublime Text.
+
+Installation
+
+	1.	Create a New Project Directory:
+
+mkdir markdown-example
+cd markdown-example
 
 
-	3.	Install the Markdown generation library by copying the markdown.go file into your project directory.
-	4.	Import the library in your Go code:
+	2.	Initialize a New Go Module:
 
-import "your-module-name/markdown"
-
+go mod init markdown-example
 
 
-3. Basic Usage
+	3.	Create the Library File:
+Create a file named markdown.go and copy the library code into it.
+	4.	Create the Test File:
+Create a file named markdown_test.go and copy the unit tests into it.
 
-Here’s a simple example of generating a Markdown document using the library.
+Example Usage
+
+Here’s a quick example that demonstrates how to use the Markdown library to create a Markdown document:
 
 package main
 
 import (
-	"fmt"
-	"markdown"
+    "fmt"
+    "markdown" // Import the Markdown package
 )
 
 func main() {
-	md := markdown.New()
+    // Initialize a new Markdown object with standard flavor and no color support
+    md := markdown.New(markdown.StandardMarkdown, false)
 
-	// Add a heading
-	md.Heading(1, "Welcome to My Markdown Document", "")
+    // Add front matter with metadata
+    md.FrontMatter(map[string]string{
+        "title":  "Document Title",
+        "author": "John Doe",
+        "date":   "2024-10-14",
+    })
 
-	// Add a paragraph
-	md.Paragraph("This document was generated using the Markdown library.")
+    // Add a main heading to the document
+    md.Heading(1, "Main Title", "", "")
 
-	// Add an unordered list
-	md.UnorderedList([]string{"Item 1", "Item 2", "Item 3"})
+    // Add a paragraph with bold text formatting
+    md.Paragraph("This is a sample paragraph with **bold** text.")
 
-	// Add a code block
-	md.CodeBlock("go", `fmt.Println("Hello, Markdown!")`)
+    // Add a list of items
+    md.List([]string{"First item", "Second item"}, false)
 
-	// Output the result
-	fmt.Println(md.GetContent())
+    // Add a code block example
+    md.CodeBlock("go", `fmt.Println("Hello, Markdown!")`)
+
+    // Print the generated Markdown content to the console
+    fmt.Println(md.GetContent())
 }
 
-This will generate the following Markdown:
+Explanation of the Example
 
-# Welcome to My Markdown Document
+	1.	Initialization:
+	•	The markdown.New function initializes a new Markdown object, allowing you to specify the desired flavor (standard Markdown syntax) and whether to enable color support for text formatting.
+	2.	Adding Front Matter:
+	•	The FrontMatter method adds metadata to the document in YAML format, which is often used in Markdown files to provide additional information about the document (like title, author, and date).
+	3.	Adding Content:
+	•	The Heading method creates a main title for the document.
+	•	The Paragraph method adds a paragraph to the document. In this example, the text “bold” is formatted using Markdown syntax for bold text.
+	•	The List method generates an unordered list with the specified items.
+	•	The CodeBlock method adds a block of code, specifying the programming language for syntax highlighting.
+	4.	Output:
+	•	Finally, GetContent returns the complete Markdown content as a string, which is printed to the console.
 
-This document was generated using the Markdown library.
+Output of the Example
 
-- Item 1
-- Item 2
-- Item 3
+When you run the above code, the output will be:
+
+---
+title: "Document Title"
+author: "John Doe"
+date: "2024-10-14"
+---
+
+# Main Title
+
+This is a sample paragraph with **bold** text.
+
+- First item
+- Second item
 
 ```go
 fmt.Println("Hello, Markdown!")
 
-## 4. API Documentation
+## API Structure
 
-### 4.1 Headings
+The API of the Markdown library is designed to provide clear and intuitive access to various Markdown functionalities. The core structure revolves around the `Markdown` type, which offers methods for manipulating and generating Markdown content.
 
-**Function**: `Heading(level int, text string, id string)`
+### Method Categories
 
-Creates a heading from level 1 to 6. You can optionally provide an anchor ID.
+1. **Content Creation**: Functions to create headings, paragraphs, lists, tables, and other content types.
+2. **Formatting**: Functions to apply text styles (bold, italic, etc.) and manage how text is displayed.
+3. **Document Structure**: Methods that handle the overall structure of the document, such as front matter, block quotes, footnotes, and custom elements.
+4. **Conversion**: Functions that convert Markdown content to HTML and return the complete document for rendering or storage.
 
+## API List
+
+### 1. `New(flavor int, useColor bool) *Markdown`
+- **Purpose**: Initializes a new Markdown object.
+- **Parameters**:
+  - `flavor`: The Markdown flavor (e.g., `StandardMarkdown`).
+  - `useColor`: Boolean indicating if color support is enabled.
+- **Results**: Returns a pointer to the new `Markdown` object.
 - **Example**:
   ```go
-  md.Heading(1, "Introduction", "intro")
+  md := markdown.New(markdown.StandardMarkdown, false)
 
-Generates:
+	•	Output: Initializes a new Markdown object ready for use.
 
-# Introduction {#intro}
+2. FrontMatter(metadata map[string]string)
 
-4.2 Paragraphs
-
-Function: Paragraph(text string, formats ...string)
-
-Adds a paragraph with optional formatting (e.g., bold, italic, strikethrough).
-
+	•	Purpose: Adds front matter metadata in YAML format.
+	•	Parameters:
+	•	metadata: A map of metadata key-value pairs.
+	•	Results: None.
 	•	Example:
 
-md.Paragraph("This is a bold and italic text.", "bold", "italic")
+md.FrontMatter(map[string]string{
+    "title":  "Document Title",
+    "author": "John Doe",
+    "date":   "2024-10-14",
+})
+
+
+	•	Output:
+
+---
+title: "Document Title"
+author: "John Doe"
+date: "2024-10-14"
+---
 
 
 
-Generates:
+3. Heading(level int, text string, id string, attributes string)
 
-_**This is a bold and italic text.**_
-
-4.3 Lists
-
-Unordered Lists
-
-Function: UnorderedList(items []string)
-
-Adds an unordered (bullet) list.
-
+	•	Purpose: Adds a heading with optional ID and attributes.
+	•	Parameters:
+	•	level: The heading level (1-6).
+	•	text: The heading text.
+	•	id: Optional ID for linking.
+	•	attributes: Optional additional attributes.
+	•	Results: None.
 	•	Example:
 
-md.UnorderedList([]string{"Item 1", "Item 2", "Item 3"})
+md.Heading(1, "Main Title", "", "")
+
+
+	•	Output:
+
+# Main Title
 
 
 
-Generates:
+4. Paragraph(text string, formats ...string)
+
+	•	Purpose: Adds a paragraph with optional formatting.
+	•	Parameters:
+	•	text: The paragraph text.
+	•	formats: Optional formatting styles (e.g., “bold”).
+	•	Results: None.
+	•	Example:
+
+md.Paragraph("This is a sample paragraph with **bold** text.")
+
+
+	•	Output:
+
+This is a sample paragraph with **bold** text.
+
+
+
+5. CodeBlock(language string, code string)
+
+	•	Purpose: Inserts a code block with syntax highlighting.
+	•	Parameters:
+	•	language: Programming language for highlighting.
+	•	code: The code to include in the block.
+	•	Results: None.
+	•	Example:
+
+md.CodeBlock("go", `fmt.Println("Hello, Markdown!")`)
+
+
+	•	Output:
+
+```go
+fmt.Println("Hello, Markdown!")
+
+
+
+
+
+6. Image(altText string, url string)
+
+	•	Purpose: Inserts an image with alt text and URL.
+	•	Parameters:
+	•	altText: Alternative text for the image.
+	•	url: URL of the image source.
+	•	Results: None.
+	•	Example:
+
+md.Image("Alt text", "https://example.com/image.png")
+
+
+	•	Output:
+
+![Alt text](https://example.com/image.png)
+
+
+
+7. List(items []string, isOrdered bool)
+
+	•	Purpose: Creates an ordered or unordered list.
+	•	Parameters:
+	•	items: List of items.
+	•	isOrdered: Boolean indicating if the list is ordered.
+	•	Results: None.
+	•	Example:
+
+md.List([]string{"Item 1", "Item 2"}, false)
+
+
+	•	Output:
 
 - Item 1
 - Item 2
-- Item 3
 
-Ordered Lists
 
-Function: OrderedList(items []string)
 
-Adds an ordered (numbered) list.
+8. NestedList(nestedItems [][]string, isOrdered bool)
 
+	•	Purpose: Creates a nested list structure.
+	•	Parameters:
+	•	nestedItems: A slice of slices of strings for nested items.
+	•	isOrdered: Boolean indicating if the nested list is ordered.
+	•	Results: None.
 	•	Example:
 
-md.OrderedList([]string{"Step 1", "Step 2", "Step 3"})
+md.NestedList([][]string{
+    {"Item 1", "Sub-item 1.1"},
+    {"Item 2", "Sub-item 2.1"},
+}, false)
+
+
+	•	Output:
+
+- Item 1
+  - Sub-item 1.1
+- Item 2
+  - Sub-item 2.1
 
 
 
-Generates:
+9. Table(headers []string, rows [][]string, align []string)
 
-1. Step 1
-2. Step 2
-3. Step 3
-
-4.4 Links
-
-Function: Link(text, url string)
-Function: AutoLink(url string)
-
-Adds a hyperlink or automatically converts a raw URL into a clickable link.
-
+	•	Purpose: Creates a Markdown table.
+	•	Parameters:
+	•	headers: Column headers.
+	•	rows: Rows of data.
+	•	align: Alignment for each column.
+	•	Results: None.
 	•	Example:
 
-md.Link("Google", "https://www.google.com")
-md.AutoLink("https://example.com")
+headers := []string{"Name", "Age"}
+rows := [][]string{
+    {"Alice", "30"},
+    {"Bob", "25"},
+}
+md.Table(headers, rows, []string{"left", "center"})
+
+
+	•	Output:
+
+| Name  | Age |
+|:------|:----:|
+| Alice | 30  |
+| Bob   | 25  |
 
 
 
-Generates:
+10. Blockquote(text string)
 
-[Google](https://www.google.com)
-
-<https://example.com>
-
-4.5 Images
-
-Function: Image(altText, url string)
-
-Adds an image with an alt text and URL.
-
-	•	Example:
-
-md.Image("Go Logo", "https://golang.org/logo.png")
-
-
-
-Generates:
-
-![Go Logo](https://golang.org/logo.png)
-
-4.6 Code Blocks
-
-Function: CodeBlock(language, code string)
-
-Adds a code block with optional language specification for syntax highlighting.
-
-	•	Example:
-
-md.CodeBlock("go", `fmt.Println("Hello, World!")`)
-
-
-
-Generates:
-
-```go
-fmt.Println("Hello, World!")
-
-### 4.7 Math Blocks
-
-**Function**: `MathBlock(equation string)`
-
-Adds a block-level mathematical equation using LaTeX/KaTeX.
-
-- **Example**:
-  ```go
-  md.MathBlock("E = mc^2")
-
-Generates:
-
-$$
-E = mc^2
-$$
-
-4.8 Blockquotes
-
-Function: Blockquote(text string)
-
-Adds a blockquote.
-
+	•	Purpose: Adds a blockquote to the document.
+	•	Parameters:
+	•	text: The text to include in the blockquote.
+	•	Results: None.
 	•	Example:
 
 md.Blockquote("This is a blockquote.")
 
 
-
-Generates:
+	•	Output:
 
 > This is a blockquote.
 
-4.9 Horizontal Rules
 
-Function: HorizontalRule()
 
-Adds a horizontal rule.
+11. HorizontalRule()
 
+	•	Purpose: Inserts a horizontal rule (line) in the document.
+	•	Parameters: None.
+	•	Results: None.
 	•	Example:
 
 md.HorizontalRule()
 
 
-
-Generates:
+	•	Output:
 
 ---
 
-4.10 Tables
 
-Function: Table(headers []string, rows [][]string, align []string)
 
-Adds a table with headers, rows, and optional column alignment (left, center, right).
+12. Footnote(ref string, content string)
 
+	•	Purpose: Adds a footnote reference to the document.
+	•	Parameters:
+	•	ref: The reference identifier.
+	•	content: The content of the footnote.
+	•	Results: None.
 	•	Example:
 
-headers := []string{"Name", "Age", "Location"}
-rows := [][]string{
-    {"John", "30", "New York"},
-    {"Jane", "25", "San Francisco"},
+md.Footnote("1", "This is the footnote content.")
+
+
+	•	Output:
+
+[1]: This is the footnote content. [Return to text](#fn-1-back)
+
+
+
+13. MultiLineFootnote(ref string, lines []string)
+
+	•	Purpose: Adds a multi-line footnote.
+	•	Parameters:
+	•	ref: The reference identifier.
+	•	lines: The content of the footnote as a slice of strings.
+	•	Results: None.
+	•	Example:
+
+md.MultiLineFootnote("1", []string{"This is the first line.", "This is the second line."})
+
+
+	•	Output:
+
+[1]: This is the first line.
+This is the second line.
+[Return to text](#fn-1-back)
+
+
+
+14. DefinitionList(definitions map[string][]string)
+
+	•	Purpose: Creates a definition list.
+	•	Parameters:
+	•	definitions: A map where each key is a term and each value is a slice of definitions for that term.
+	•	Results: None.
+	•	Example:
+
+definitions := map[string][]string{
+    "Term 1": {"Definition 1.1", "Definition 1.2"},
+    "Term 2": {"Definition 2.1"},
 }
-md.Table(headers, rows, []string{"left", "center", "right"})
+md.DefinitionList(definitions)
+
+
+	•	Output:
+
+Term 1
+: Definition 1.1
+: Definition 1.2
+
+Term 2
+: Definition 2.1
 
 
 
-Generates:
+15. Escape(text string) string
 
-| Name | Age | Location |
-|:---  |:---:|---------:|
-| John |  30 |   New York |
-| Jane |  25 | San Francisco |
-
-4.11 Footnotes
-
-Function: Footnote(label, text string)
-Function: MultiLineFootnote(label string, lines []string)
-
-Adds a single-line or multi-line footnote.
-
+	•	Purpose: Escapes special Markdown characters in the given text.
+	•	Parameters:
+	•	text: The text to escape.
+	•	Results: Returns the escaped string.
 	•	Example:
 
-md.Footnote("1", "This is a footnote.")
-md.MultiLineFootnote("1", []string{
-    "This is a multi-line footnote.",
-    "It spans more than one line.",
-})
+escapedText := md.Escape("Text with special * characters")
+
+
+	•	Output:
+
+Text with special \* characters
 
 
 
-4.12 Task Lists
+16. CustomDiv(class string, content string)
 
-Function: TaskList(items []string, checked []bool)
+	•	Purpose: Adds a custom div (like alerts) to the document.
+	•	Parameters:
+	•	class: The CSS class for the div.
+	•	content: The content of the div.
+	•	Results: None.
+	•	Example:
 
-Adds a task list with checkboxes.
+md.CustomDiv("alert", "This is an alert block.")
 
+
+	•	Output:
+
+::: alert
+This is an alert block.
+:::
+
+
+
+17. TaskList(items []string, completed []bool)
+
+	•	Purpose: Creates a task list.
+	•	Parameters:
+	•	items: A slice of task descriptions.
+	•	completed: A slice of booleans indicating whether each task is completed.
+	•	Results: None.
 	•	Example:
 
 md.TaskList([]string{"Task 1", "Task 2"}, []bool{true, false})
 
 
-
-Generates:
+	•	Output:
 
 - [x] Task 1
 - [ ] Task 2
 
-4.13 Custom Divs
 
-Function: CustomDiv(className, content string)
 
-Adds a custom fenced div, useful for alerts or notes.
+18. MermaidDiagram(code string)
 
+	•	Purpose: Inserts a Mermaid diagram into the document.
+	•	Parameters:
+	•	code: The Mermaid diagram code.
+	•	Results: None.
 	•	Example:
 
-md.CustomDiv("alert", "This is an alert message.")
+md.MermaidDiagram("graph TD; A-->B;")
+
+
+	•	Output:
+
+```mermaid
+graph TD; A-->B;
 
 
 
-Generates:
 
-::: alert
-This is an alert message.
-:::
 
-4.14 Emoji
+19. MathBlock(equation string)
 
-Function: Emoji(emoji string)
-
-Adds an emoji using :emoji: syntax.
-
+	•	Purpose: Adds a block of mathematical notation using LaTeX syntax.
+	•	Parameters:
+	•	equation: The LaTeX equation to include.
+	•	Results: None.
 	•	Example:
 
-md.Emoji("smile")
+md.MathBlock("E = mc^2")
+
+
+	•	Output:
+
+$$
+E = mc^2
+$$
 
 
 
-Generates:
+20. Underline(text string) string
 
-:smile:
-
-5. Advanced Features
-
-5.1 Front Matter
-
-Function: FrontMatter(metadata map[string]string)
-
-Adds front matter metadata in YAML format, typically used by static site generators.
-
+	•	Purpose: Underlines the specified text.
+	•	Parameters:
+	•	text: The text to underline.
+	•	Results: Returns the underlined text as HTML.
 	•	Example:
 
-md.FrontMatter(map[string]string{
-    "title":  "My Document",
-    "author": "John Doe",
-    "date":   "2024-01-01",
-})
+underlined := md.Underline("Underlined Text")
+
+
+	•	Output:
+
+<u>Underlined Text</u>
 
 
 
-Generates:
+21. Subscript(text string) string
 
----
-title: "My Document"
-author: "John Doe"
-date: "2024-01-01"
----
-
-5.2 Table of Contents
-
-Function: TableOfContents()
-
-Generates a table of contents based on the headings present in the document.
-
+	•	Purpose: Formats the text as subscript.
+	•	Parameters:
+	•	text: The text to format as subscript.
+	•	Results: Returns the subscripted text as HTML.
 	•	Example:
 
-md.Heading(1, "Title", "")
-md.Heading(2, "Introduction", "intro")
-md.Heading(2, "Content", "content")
-md.TableOfContents()
+subscripted := md.Subscript("H2O")
+
+
+	•	Output:
+
+<sub>H2O</sub>
 
 
 
-Generates:
+22. Superscript(text string) string
 
-## Table of Contents
-- # Title
-- ## Introduction {#intro}
-- ## Content {#content}
-
-5.3 Mermaid Diagrams
-
-Function: MermaidDiagram(diagram string)
-
-Adds a Mermaid diagram for flowcharts or sequence diagrams.
-
+	•	Purpose: Formats the text as superscript.
+	•	Parameters:
+	•	text: The text to format as superscript.
+	•	Results: Returns the superscripted text as HTML.
 	•	Example:
 
-md.MermaidDiagram(`
-    graph TD;
-    A-->B;
-    A-->C;
-    B-->D;
-    C-->D;
-`)
+superscripted := md.Superscript("x2")
+
+
+	•	Output:
+
+<sup>x2</sup>
 
 
 
-5.4 Markdown to HTML Conversion
+23. ColorText(text string, color string) string
 
-Function: ToHTML()
+	•	Purpose: Formats the text with the specified color.
+	•	Parameters:
+	•	text: The text to color.
+	•	color: The color name (e.g., “red”).
+	•	Results: Returns the colored text as HTML.
+	•	Example:
 
-Converts the generated Markdown to HTML.
+coloredText := md.ColorText("Hello", "red")
 
+
+	•	Output:
+
+<span style="color:red">Hello</span>
+
+
+
+24. ToHTML() string
+
+	•	Purpose: Converts the Markdown content to HTML.
+	•	Parameters: None.
+	•	Results: Returns the generated HTML as a string.
 	•	Example:
 
 html := md.ToHTML()
-fmt.Println(html)
+
+
+	•	Output:
+
+<html>This is the content in HTML format.</html>
 
 
 
-6. Escaping Special Characters
+25. GetContent() string
 
-Function: Escape(text string)
-
-Ensures special characters are properly escaped in Markdown.
-
+	•	Purpose: Returns the current Markdown content as a string.
+	•	Parameters: None.
+	•	Results: Returns the Markdown content.
 	•	Example:
 
-escaped := md.Escape("Text with special * characters")
+content := md.GetContent()
+
+
+	•	Output:
+
+---
+title: "Document Title"
+author: "John Doe"
+date: "2024-10-14"
+---
+
+# Main Title
+
+This is a sample paragraph with **bold** text.
 
 
 
-Generates:
+Adding New Methods to the Library
 
-Text with special \* characters
+To add a new method to the Markdown library, follow these steps:
 
-7. Best Practices
+	1.	Identify the Need: Determine the functionality that needs to be added. For example, you might want to support a new Markdown feature that isn’t currently implemented.
+	2.	Define the Method Signature: Decide on the method name, parameters, and return types.
+	3.	Implement the Method: Write the method code. Ensure it adheres to Markdown syntax and best practices.
+	4.	Update Documentation: Add the new method to the API documentation, including purpose, parameters, results, and examples.
+	5.	Write Unit Tests: Create tests for the new method to ensure it behaves as expected.
+	6.	Run Tests: Execute all tests to verify that your new method works correctly and does not break existing functionality.
 
-	•	Order of Operations: Always render headings before calling TableOfContents() so that the TOC can track the headings properly.
-	•	Escaping Characters: Use the Escape function when adding text that may contain special Markdown characters.
-	•	Consistency: Try to maintain consistency when using inline formatting (e.g., bold or italic) to make your Markdown documents easier to read.
+Understanding Unit Tests in markdown_test.go
 
-8. Testing
+The markdown_test.go file contains unit tests for the Markdown library, ensuring that all methods work as expected. Here’s an overview of the unit testing process:
 
-To run the tests for this library, use the following command in the terminal:
-
-go test -v
-
-For detailed test coverage:
-
-go test -coverprofile=coverage.out
-go tool cover -html=coverage.out
-
-This will generate an HTML report that shows the lines of code that are covered by tests.
-
-9. Contributing
-
-To contribute to this project:
-
-	1.	Fork the repository and clone it locally.
-	2.	Make your changes in a new branch.
-	3.	Add tests for your changes.
-	4.	Open a pull request for review.
-
-This manual provides a full guide on how to use and extend the Markdown generation library. Let me know if you need any further details or adjustments!
+	1.	Test Structure: Each test function follows the naming convention Test<FunctionName>. For example, TestFrontMatter tests the FrontMatter method.
+	2.	Assertions: Each test checks the output of a method against an expected result using if statements. When an output does not match the expectation, the test fails, and an error message is printed.
+	3.	Coverage Reports: Use the go test -coverprofile=coverage.out command to generate coverage reports. This helps identify which parts of the code are tested and which are not.
+	4.	Adding New Tests: To ensure comprehensive testing, add new test cases for any newly implemented methods, including edge cases.
+	5.	Running Tests: Execute go test -v ./... to run all tests in verbose mode, providing detailed output for each test case.
