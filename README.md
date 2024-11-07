@@ -327,7 +327,7 @@ md.Table(headers, rows, []string{"left", "center"})
 
 ```md.Blockquote("This is a blockquote.")```
 
-- **Output:*
+- **Output:**
 
 ```
 > This is a blockquote.
