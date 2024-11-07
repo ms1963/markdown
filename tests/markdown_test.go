@@ -2,7 +2,7 @@ package markdown_test
 
 import (
     "testing"
-    "github.com/ms1963/markdown" // Replace with your actual package import path
+    "github.com/ms1963/markdown"
 )
 
 // Helper function to compare expected and actual output.
