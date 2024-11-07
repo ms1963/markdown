@@ -603,7 +603,7 @@ html := md.ToHTML()
 ### 25. GetContent() string
 
 - **Purpose:** Returns the current Markdown content as a string.
-- **Parameters:* None.
+- **Parameters:** None.
 - **Results:** Returns the Markdown content.
 - **Example:**
 
