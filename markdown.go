@@ -5,7 +5,7 @@ Markdown documents in Go programs.
 It follows the guidelines for Markdown files and covers most of
 the formatting commands supported in Markdown.
 
-The library is available for public use with a M.I.T license.  	
+The library is available for public use with a MIT license.  	
 
 (c) 2024, Michael Stal			
 ********************************************************************/
