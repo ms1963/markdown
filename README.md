@@ -98,8 +98,7 @@ The FrontMatter method adds metadata to the document in YAML format, which is of
 The Heading method creates a main title for the document.
 The Paragraph method adds a paragraph to the document. In this example, the text “bold” is formatted using Markdown syntax for bold text.
 4. 	The List method generates an unordered list with the specified items.
-The CodeBlock method adds a block of code, specifying the programming language for syntax highlighting.
-Output: Finally, GetContent returns the complete Markdown content as a string, which is printed to the console.
+The CodeBlock method adds a block of code, specifying the programming language for syntax highlighting.  inally, GetContent returns the complete Markdown content as a string, which is printed to the console.
 
 ### Output of the Example
 
