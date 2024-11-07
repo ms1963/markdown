@@ -39,15 +39,16 @@ Create a file named markdown.go and copy the library code into it.
 	4.	Create the Test File:
 Create a file named markdown_test.go and copy the unit tests into it.
 
-Example Usage
+###Example Usage
 
 Here’s a quick example that demonstrates how to use the Markdown library to create a Markdown document:
 
+'''
 package main
 
 import (
     "fmt"
-    "markdown" // Import the Markdown package
+    "github.com/ms193/markdown" // Import the Markdown package
 )
 
 func main() {
@@ -76,8 +77,9 @@ func main() {
     // Print the generated Markdown content to the console
     fmt.Println(md.GetContent())
 }
+'''
 
-Explanation of the Example
+### Explanation of the Example
 
 	1.	Initialization:
 	•	The markdown.New function initializes a new Markdown object, allowing you to specify the desired flavor (standard Markdown syntax) and whether to enable color support for text formatting.
