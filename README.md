@@ -1,6 +1,6 @@
-#Developer Guide for Markdown Library
+# Developer Guide for Markdown Library
 
-##Introduction
+## Introduction
 
 The Markdown library is a powerful Go package designed for developers to create Markdown-formatted content programmatically. Markdown is a widely-used lightweight markup language that enables you to format plain text, making it suitable for various applications, such as documentation, README files, and blogs. This library simplifies the process of generating Markdown text by providing a rich set of functions that correspond to Markdown syntax elements.
 
@@ -12,7 +12,7 @@ Key Features
 	•	HTML Conversion: Convert Markdown documents to HTML format for easy web integration.
 	•	Best Practices: This library follows Markdown best practices, ensuring that the generated output is both standardized and consistent with common Markdown parsers.
 
-##Getting Started
+## Getting Started for Library Developers
 
 Prerequisites
 
@@ -25,13 +25,14 @@ Installation
 
 	1.	Create a New Project Directory:
 
+```
 mkdir markdown-example
 cd markdown-example
-
+```
 
 	2.	Initialize a New Go Module:
 
-go mod init markdown-example
+```   go mod init markdown-example   ```
 
 
 	3.	Create the Library File:
@@ -39,12 +40,12 @@ Create a file named markdown.go and copy the library code into it.
 	4.	Create the Test File:
 Create a file named markdown_test.go and copy the unit tests into it.
 
-###Example Usage
+### Example Usage
 
 Here’s a quick example that demonstrates how to use the Markdown library to create a Markdown document:
 
 
-'''
+```
 
 package main
 
@@ -81,7 +82,7 @@ func main() {
 }
 
 
-'''
+```
 
 
 ### Explanation of the Example
@@ -98,10 +99,11 @@ func main() {
 	4.	Output:
 	•	Finally, GetContent returns the complete Markdown content as a string, which is printed to the console.
 
-Output of the Example
+### Output of the Example
 
 When you run the above code, the output will be:
 
+```
 ---
 title: "Document Title"
 author: "John Doe"
@@ -117,6 +119,8 @@ This is a sample paragraph with **bold** text.
 
 ```go
 fmt.Println("Hello, Markdown!")
+```
+
 
 ## API Structure
 
@@ -138,72 +142,73 @@ The API of the Markdown library is designed to provide clear and intuitive acces
   - `useColor`: Boolean indicating if color support is enabled.
 - **Results**: Returns a pointer to the new `Markdown` object.
 - **Example**:
-  ```go
+  ```
   md := markdown.New(markdown.StandardMarkdown, false)
-
-	•	Output: Initializes a new Markdown object ready for use.
+  ```
+  
+•	Output: Initializes a new Markdown object ready for use.
 
 2. FrontMatter(metadata map[string]string)
-
-	•	Purpose: Adds front matter metadata in YAML format.
-	•	Parameters:
-	•	metadata: A map of metadata key-value pairs.
-	•	Results: None.
-	•	Example:
-
+•	Purpose: Adds front matter metadata in YAML format.
+•	Parameters:
+•		metadata: A map of metadata key-value pairs.
+•	Results: None.
+•	Example:
+```
 md.FrontMatter(map[string]string{
     "title":  "Document Title",
     "author": "John Doe",
     "date":   "2024-10-14",
 })
+```
 
-
-	•	Output:
-
+•	Output:
+```
 ---
 title: "Document Title"
 author: "John Doe"
 date: "2024-10-14"
 ---
-
+```
 
 
 3. Heading(level int, text string, id string, attributes string)
+•	Purpose: Adds a heading with optional ID and attributes.
+•	Parameters:
+•		level: The heading level (1-6).
+•		text: The heading text.
+•		id: Optional ID for linking.
+•		attributes: Optional additional attributes.
+•	Results: None.
+•	Example:
 
-	•	Purpose: Adds a heading with optional ID and attributes.
-	•	Parameters:
-	•	level: The heading level (1-6).
-	•	text: The heading text.
-	•	id: Optional ID for linking.
-	•	attributes: Optional additional attributes.
-	•	Results: None.
-	•	Example:
-
+```
 md.Heading(1, "Main Title", "", "")
+```
 
-
-	•	Output:
-
+•	Output:
+```
 # Main Title
-
+```
 
 
 4. Paragraph(text string, formats ...string)
+•	Purpose: Adds a paragraph with optional formatting.
+•	Parameters:
 
-	•	Purpose: Adds a paragraph with optional formatting.
-	•	Parameters:
-	•	text: The paragraph text.
-	•	formats: Optional formatting styles (e.g., “bold”).
-	•	Results: None.
-	•	Example:
+•		text: The paragraph text.
+		•	formats: Optional formatting styles (e.g., “bold”).
+•	Results: None.
+•	Example:
 
+```
 md.Paragraph("This is a sample paragraph with **bold** text.")
+```
 
-
-	•	Output:
-
+•	Output:
+```
 This is a sample paragraph with **bold** text.
-
+```
 
 
 5. CodeBlock(language string, code string)
