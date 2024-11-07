@@ -43,7 +43,9 @@ Create a file named markdown_test.go and copy the unit tests into it.
 
 Here’s a quick example that demonstrates how to use the Markdown library to create a Markdown document:
 
+
 '''
+
 package main
 
 import (
@@ -77,7 +79,10 @@ func main() {
     // Print the generated Markdown content to the console
     fmt.Println(md.GetContent())
 }
+
+
 '''
+
 
 ### Explanation of the Example
 
