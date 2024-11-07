@@ -239,99 +239,102 @@ fmt.Println("Hello, Markdown!")
 md.Image("Alt text", "https://example.com/image.png")
 
 - **Output:**
-
+```
 ![Alt text](https://example.com/image.png)
+```
 
 
+### 7. List(items []string, isOrdered bool)
 
-7. List(items []string, isOrdered bool)
-
-	•	Purpose: Creates an ordered or unordered list.
-	•	Parameters:
-	•	items: List of items.
-	•	isOrdered: Boolean indicating if the list is ordered.
-	•	Results: None.
-	•	Example:
-
+- Purpose: Creates an ordered or unordered list.
+- Parameters:
+- items: List of items.
+- isOrdered: Boolean indicating if the list is ordered.
+- **Results:**  None.
+- **Example:**
+```
 md.List([]string{"Item 1", "Item 2"}, false)
+```
 
-
-	•	Output:
-
+- **Output:**
+```
 - Item 1
 - Item 2
+```
 
 
+### 8. NestedList(nestedItems [][]string, isOrdered bool)
 
-8. NestedList(nestedItems [][]string, isOrdered bool)
+- **Purpose:** Creates a nested list structure.
+- **Parameters:**
+- nestedItems: A slice of slices of strings for nested items.
+- isOrdered: Boolean indicating if the nested list is ordered.
+- **Results:** None.
+- **Example:**
 
-	•	Purpose: Creates a nested list structure.
-	•	Parameters:
-	•	nestedItems: A slice of slices of strings for nested items.
-	•	isOrdered: Boolean indicating if the nested list is ordered.
-	•	Results: None.
-	•	Example:
-
+```
 md.NestedList([][]string{
     {"Item 1", "Sub-item 1.1"},
     {"Item 2", "Sub-item 2.1"},
 }, false)
+```
 
+- **Output:**
 
-	•	Output:
-
+```
 - Item 1
   - Sub-item 1.1
 - Item 2
   - Sub-item 2.1
+```
 
 
+### 9. Table(headers []string, rows [][]string, align []string)
 
-9. Table(headers []string, rows [][]string, align []string)
+- **Purpose:** Creates a Markdown table.
+- **Parameters:**
+- headers: Column headers.
+- rows: Rows of data.
+- align: Alignment for each column.
+- Results: None.
+- **Example:**
 
-	•	Purpose: Creates a Markdown table.
-	•	Parameters:
-	•	headers: Column headers.
-	•	rows: Rows of data.
-	•	align: Alignment for each column.
-	•	Results: None.
-	•	Example:
-
+```
 headers := []string{"Name", "Age"}
 rows := [][]string{
     {"Alice", "30"},
     {"Bob", "25"},
 }
 md.Table(headers, rows, []string{"left", "center"})
+```
 
+- **Output:**
 
-	•	Output:
-
+```
 | Name  | Age |
 |:------|:----:|
 | Alice | 30  |
 | Bob   | 25  |
+```
 
 
+### 10. Blockquote(text string)
+- **Purpose:** Adds a blockquote to the document.
+- **Parameters:**
+- text: The text to include in the blockquote.
+- **Results: None.**
+- **Example:**
 
-10. Blockquote(text string)
+```md.Blockquote("This is a blockquote.")```
 
-	•	Purpose: Adds a blockquote to the document.
-	•	Parameters:
-	•	text: The text to include in the blockquote.
-	•	Results: None.
-	•	Example:
+- **Output:*
 
-md.Blockquote("This is a blockquote.")
-
-
-	•	Output:
-
+```
 > This is a blockquote.
+```
 
 
-
-11. HorizontalRule()
+### 11. HorizontalRule()
 
 	•	Purpose: Inserts a horizontal rule (line) in the document.
 	•	Parameters: None.
