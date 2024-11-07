@@ -42,7 +42,7 @@ go get github.com/ms1963/markdown
 
 5.	Create Your Code
 
-### Example Usage
+## Example Usage
 
 Here’s a quick example that demonstrates how to use the Markdown library to create a Markdown document:
 
@@ -87,7 +87,7 @@ func main() {
 ```
 
 
-### Explanation of the Example
+## Explanation of the Example
 
 	
  1.	Initialization:
@@ -128,7 +128,7 @@ fmt.Println("Hello, Markdown!")
 
 The API of the Markdown library is designed to provide clear and intuitive access to various Markdown functionalities. The core structure revolves around the `Markdown` type, which offers methods for manipulating and generating Markdown content.
 
-### Method Categories
+## Method Categories
 
 1. **Content Creation**: Functions to create headings, paragraphs, lists, tables, and other content types.
 2. **Formatting**: Functions to apply text styles (bold, italic, etc.) and manage how text is displayed.
@@ -336,276 +336,285 @@ md.Table(headers, rows, []string{"left", "center"})
 
 ### 11. HorizontalRule()
 
-	•	Purpose: Inserts a horizontal rule (line) in the document.
-	•	Parameters: None.
-	•	Results: None.
-	•	Example:
+- **Purpose:** Inserts a horizontal rule (line) in the document.
+- **Parameters:** None.
+- **Results:** None.
+- **Example:**
 
+```
 md.HorizontalRule()
+```
 
-
-	•	Output:
-
+- **Output:**
+```
 ---
+```
 
 
+### 12. Footnote(ref string, content string)
 
-12. Footnote(ref string, content string)
+- **Purpose:** Adds a footnote reference to the document.
+- **Parameters:**
+- ref: The reference identifier.
+- content: The content of the footnote.
+- **Results:** None.
+- **Example:**
 
-	•	Purpose: Adds a footnote reference to the document.
-	•	Parameters:
-	•	ref: The reference identifier.
-	•	content: The content of the footnote.
-	•	Results: None.
-	•	Example:
-
+```
 md.Footnote("1", "This is the footnote content.")
+```
 
+- **Output:**
 
-	•	Output:
-
+```
 [1]: This is the footnote content. [Return to text](#fn-1-back)
+```
 
 
+### 13. MultiLineFootnote(ref string, lines []string)
 
-13. MultiLineFootnote(ref string, lines []string)
-
-	•	Purpose: Adds a multi-line footnote.
-	•	Parameters:
-	•	ref: The reference identifier.
-	•	lines: The content of the footnote as a slice of strings.
-	•	Results: None.
-	•	Example:
-
+- **Purpose:**  Adds a multi-line footnote.
+- **Parameters:**
+- ref: The reference identifier.
+- lines: The content of the footnote as a slice of strings.
+- **Results:**  None.
+- **Example:**
+```
 md.MultiLineFootnote("1", []string{"This is the first line.", "This is the second line."})
+```
 
-
-	•	Output:
-
+- **Output:**
+```
 [1]: This is the first line.
 This is the second line.
 [Return to text](#fn-1-back)
+```
 
+### 14. DefinitionList(definitions map[string][]string)
 
-
-14. DefinitionList(definitions map[string][]string)
-
-	•	Purpose: Creates a definition list.
-	•	Parameters:
-	•	definitions: A map where each key is a term and each value is a slice of definitions for that term.
-	•	Results: None.
-	•	Example:
-
+- **Purpose:** Creates a definition list.
+- **Parameters:**
+- definitions: A map where each key is a term and each value is a slice of definitions for that term.
+- **Results:** None.
+- **Example:**
+```
 definitions := map[string][]string{
     "Term 1": {"Definition 1.1", "Definition 1.2"},
     "Term 2": {"Definition 2.1"},
 }
 md.DefinitionList(definitions)
+```
 
+- **Output:**
 
-	•	Output:
-
+```
 Term 1
 : Definition 1.1
 : Definition 1.2
 
 Term 2
 : Definition 2.1
+```
 
 
+## 15. Escape(text string) string
 
-15. Escape(text string) string
-
-	•	Purpose: Escapes special Markdown characters in the given text.
-	•	Parameters:
-	•	text: The text to escape.
-	•	Results: Returns the escaped string.
-	•	Example:
-
+- **Purpose:** Escapes special Markdown characters in the given text.
+- **Parameters:**
+- text: The text to escape.
+- **Results:** Returns the escaped string.
+- **Example:**
+```
 escapedText := md.Escape("Text with special * characters")
+```
 
-
-	•	Output:
-
+- **Output:**
+```
 Text with special \* characters
+```
 
 
+### 16. CustomDiv(class string, content string)
 
-16. CustomDiv(class string, content string)
-
-	•	Purpose: Adds a custom div (like alerts) to the document.
-	•	Parameters:
-	•	class: The CSS class for the div.
-	•	content: The content of the div.
-	•	Results: None.
-	•	Example:
-
+- **Purpose:** Adds a custom div (like alerts) to the document.
+- **Parameters:**
+- class: The CSS class for the div.
+- content: The content of the div.
+- **Results:** None.
+- **Example:**
+```
 md.CustomDiv("alert", "This is an alert block.")
-
-
-	•	Output:
-
+```
+- **Output:**
+```
 ::: alert
 This is an alert block.
 :::
+```
 
+### 17. TaskList(items []string, completed []bool)
 
-
-17. TaskList(items []string, completed []bool)
-
-	•	Purpose: Creates a task list.
-	•	Parameters:
-	•	items: A slice of task descriptions.
-	•	completed: A slice of booleans indicating whether each task is completed.
-	•	Results: None.
-	•	Example:
-
+- **Purpose:** Creates a task list.
+- **Parameters:**
+- items: A slice of task descriptions.
+- completed: A slice of booleans indicating whether each task is completed.
+- **Results:** None.
+- **Example:**
+```
 md.TaskList([]string{"Task 1", "Task 2"}, []bool{true, false})
+```
 
+- **Output:**
 
-	•	Output:
-
+```
 - [x] Task 1
 - [ ] Task 2
+```
 
 
+### 18. MermaidDiagram(code string)
 
-18. MermaidDiagram(code string)
+- **Purpose:** Inserts a Mermaid diagram into the document.
+- **Parameters:**
+- code: The Mermaid diagram code.
+- **Results:** None.
+- **Example:**
 
-	•	Purpose: Inserts a Mermaid diagram into the document.
-	•	Parameters:
-	•	code: The Mermaid diagram code.
-	•	Results: None.
-	•	Example:
-
+```
 md.MermaidDiagram("graph TD; A-->B;")
-
-
-	•	Output:
+```
+- **Output:**
 
 ```mermaid
 graph TD; A-->B;
+``` 
 
+### 19. MathBlock(equation string)
 
-
-
-
-19. MathBlock(equation string)
-
-	•	Purpose: Adds a block of mathematical notation using LaTeX syntax.
-	•	Parameters:
-	•	equation: The LaTeX equation to include.
-	•	Results: None.
-	•	Example:
-
+- **Purpose:** Adds a block of mathematical notation using LaTeX syntax.
+- **Parameters:**
+- equation: The LaTeX equation to include.
+- **Results:** None.
+- **Example:**
+```
 md.MathBlock("E = mc^2")
+```
 
-
-	•	Output:
-
+- **Output:**
+```
 $$
 E = mc^2
 $$
+```
 
 
+### 20. Underline(text string) string
 
-20. Underline(text string) string
+- **Purpose:** Underlines the specified text.
+- **Parameters:**
+- text: The text to underline.
+- **Results:** Returns the underlined text as HTML.
+- **Example:**
 
-	•	Purpose: Underlines the specified text.
-	•	Parameters:
-	•	text: The text to underline.
-	•	Results: Returns the underlined text as HTML.
-	•	Example:
-
+```
 underlined := md.Underline("Underlined Text")
+```
 
+- **Output:**
 
-	•	Output:
-
+```
 <u>Underlined Text</u>
+```
 
 
+### 21. Subscript(text string) string
 
-21. Subscript(text string) string
-
-	•	Purpose: Formats the text as subscript.
-	•	Parameters:
-	•	text: The text to format as subscript.
-	•	Results: Returns the subscripted text as HTML.
-	•	Example:
-
+- **Purpose:** Formats the text as subscript.
+- **Parameters:**
+- text: The text to format as subscript.
+- **Results:** Returns the subscripted text as HTML.
+- **Example:**
+```
 subscripted := md.Subscript("H2O")
+```
 
+- **Output:**
 
-	•	Output:
-
+```
 <sub>H2O</sub>
+```
 
 
+### 22. Superscript(text string) string
 
-22. Superscript(text string) string
+- **Purpose:** Formats the text as superscript.
+- **Parameters:**
+- text: The text to format as superscript.
+- **Results:** Returns the superscripted text as HTML.
+- **Example:**
 
-	•	Purpose: Formats the text as superscript.
-	•	Parameters:
-	•	text: The text to format as superscript.
-	•	Results: Returns the superscripted text as HTML.
-	•	Example:
-
+```
 superscripted := md.Superscript("x2")
+```
 
+- **Output:**
 
-	•	Output:
-
+```
 <sup>x2</sup>
+```
 
 
+### 23. ColorText(text string, color string) string
 
-23. ColorText(text string, color string) string
+- **Purpose:** Formats the text with the specified color.
+- **Parameters:**
+- text: The text to color.
+- color: The color name (e.g., “red”).
+- **Results:** Returns the colored text as HTML.
+- **Example:**
 
-	•	Purpose: Formats the text with the specified color.
-	•	Parameters:
-	•	text: The text to color.
-	•	color: The color name (e.g., “red”).
-	•	Results: Returns the colored text as HTML.
-	•	Example:
-
+```
 coloredText := md.ColorText("Hello", "red")
+```
 
+- **Output:**
 
-	•	Output:
-
+```
 <span style="color:red">Hello</span>
+```
 
 
+### 24. ToHTML() string
 
-24. ToHTML() string
-
-	•	Purpose: Converts the Markdown content to HTML.
-	•	Parameters: None.
-	•	Results: Returns the generated HTML as a string.
-	•	Example:
-
+- **Purpose:** Converts the Markdown content to HTML.
+- **Parameters:** None.
+- **Results:** Returns the generated HTML as a string.
+- **Example:**
+```
 html := md.ToHTML()
+```
 
+- **Output:**
 
-	•	Output:
-
+```
 <html>This is the content in HTML format.</html>
+```
 
 
+### 25. GetContent() string
 
-25. GetContent() string
+- **Purpose:** Returns the current Markdown content as a string.
+- **Parameters:* None.
+- **Results:** Returns the Markdown content.
+- **Example:**
 
-	•	Purpose: Returns the current Markdown content as a string.
-	•	Parameters: None.
-	•	Results: Returns the Markdown content.
-	•	Example:
-
+```
 content := md.GetContent()
+```
 
+- **Output:**
 
-	•	Output:
-
+```
 ---
 title: "Document Title"
 author: "John Doe"
@@ -615,10 +624,10 @@ date: "2024-10-14"
 # Main Title
 
 This is a sample paragraph with **bold** text.
+```
 
 
-
-Adding New Methods to the Library
+## Adding New Methods to the Library
 
 To add a new method to the Markdown library, follow these steps:
 
@@ -629,7 +638,7 @@ To add a new method to the Markdown library, follow these steps:
 	5.	Write Unit Tests: Create tests for the new method to ensure it behaves as expected.
 	6.	Run Tests: Execute all tests to verify that your new method works correctly and does not break existing functionality.
 
-Understanding Unit Tests in markdown_test.go
+## Understanding Unit Tests in markdown_test.go
 
 The markdown_test.go file contains unit tests for the Markdown library, ensuring that all methods work as expected. Here’s an overview of the unit testing process:
 
