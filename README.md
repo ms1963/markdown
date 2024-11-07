@@ -137,7 +137,7 @@ The API of the Markdown library is designed to provide clear and intuitive acces
 
 ## API List
 
-### 1. `New(flavor int, useColor bool) *Markdown`
+### 1. New(flavor int, useColor bool) *Markdown
 - **Purpose**: Initializes a new Markdown object.
 - **Parameters:**:
   - `flavor`: The Markdown flavor (e.g., `StandardMarkdown`).
@@ -149,7 +149,7 @@ The API of the Markdown library is designed to provide clear and intuitive acces
   ```
 - **Output**: Initializes a new Markdown object ready for use.
 
-### 2. `FrontMatter(metadata map[string]string)`
+### 2. FrontMatter(metadata map[string]string)
 - **Purpose:** Adds front matter metadata in YAML format.
 - **Parameters:**
   - metadata: A map of metadata key-value pairs.
@@ -173,7 +173,7 @@ date: "2024-10-14"
 ```
 
 
-### 3. `Heading(level int, text string, id string, attributes string)`
+### 3. Heading(level int, text string, id string, attributes string)
 - **Purpose:** Adds a heading with optional ID and attributes.
 - **Parameters:**
 - level: The heading level (1-6).
@@ -193,7 +193,7 @@ md.Heading(1, "Main Title", "", "")
 ```
 
 
-### 4. `Paragraph(text string, formats ...string)`
+### 4. Paragraph(text string, formats ...string)
 - **Purpose:** Adds a paragraph with optional formatting.
 - **Parameters:**
 - text: The paragraph text.
@@ -211,7 +211,7 @@ This is a sample paragraph with **bold** text.
 ```
 
 
-### 5.  `CodeBlock(language string, code string)
+### 5.  CodeBlock(language string, code string)
 - **Purpose:** Inserts a code block with syntax highlighting.
 - **Parameters:**
 - language: Programming language for highlighting.
