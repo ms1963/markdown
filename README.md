@@ -501,11 +501,10 @@ md.MathBlock("E = mc^2")
 ```
 
 - **Output:**
-```
+
 $$
 E = mc^2
 $$
-```
 
 
 ### 20. Underline(text string) string
