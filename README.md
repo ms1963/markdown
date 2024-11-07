@@ -416,7 +416,7 @@ Term 2
 ```
 
 
-## 15. Escape(text string) string
+### 15. Escape(text string) string
 
 - **Purpose:** Escapes special Markdown characters in the given text.
 - **Parameters:**
