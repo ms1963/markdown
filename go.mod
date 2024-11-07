@@ -1,3 +1,3 @@
-module make_markdown
+module markdown
 
 go 1.18
