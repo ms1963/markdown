@@ -136,7 +136,7 @@ The API of the Markdown library is designed to provide clear and intuitive acces
 
 ## API List
 
-### 1. New(flavor int, useColor bool) *Markdown
+### 1. `New(flavor int, useColor bool) *Markdown`
 - **Purpose**: Initializes a new Markdown object.
 - **Parameters:**:
 - `flavor`: The Markdown flavor (e.g., `StandardMarkdown`).
@@ -148,7 +148,7 @@ The API of the Markdown library is designed to provide clear and intuitive acces
   ```
 - **Output**: Initializes a new Markdown object ready for use.
 
-### 2. FrontMatter(metadata map[string]string)
+### 2. `FrontMatter(metadata map[string]string)`
 - **Purpose:** Adds front matter metadata in YAML format.
 - **Parameters:**
 - `metadata`: A map of metadata key-value pairs.
@@ -172,7 +172,7 @@ date: "2024-10-14"
 ```
 
 
-### 3. Heading(level int, text string, id string, attributes string)
+### 3. `Heading(level int, text string, id string, attributes string)`
 - **Purpose:** Adds a heading with optional ID and attributes.
 - **Parameters:**
 - `level`: The heading level (1-6).
@@ -192,7 +192,7 @@ md.Heading(1, "Main Title", "", "")
 ```
 
 
-### 4. Paragraph(text string, formats ...string)
+### 4. `Paragraph(text string, formats ...string)`
 - **Purpose:** Adds a paragraph with optional formatting.
 - **Parameters:**
 - `text`: The paragraph text.
@@ -210,7 +210,7 @@ This is a sample paragraph with **bold** text.
 ```
 
 
-### 5.  CodeBlock(language string, code string)
+### 5. `CodeBlock(language string, code string)`
 - **Purpose:** Inserts a code block with syntax highlighting.
 - **Parameters:**
 - `language`: Programming language for highlighting.
@@ -227,7 +227,7 @@ md.CodeBlock("go", `fmt.Println("Hello, Markdown!")`)
 fmt.Println("Hello, Markdown!")
 ```
 
-### 6. Image(altText string, url string)
+### 6. `Image(altText string, url string)`
 - **Purpose:** Inserts an image with alt text and URL.
 - **Parameters:**
 - `altText`: Alternative text for the image.
@@ -243,7 +243,7 @@ md.Image("Alt text", "https://example.com/image.png")
 ```
 
 
-### 7. List(items []string, isOrdered bool)
+### 7. `List(items []string, isOrdered bool)`
 
 - **Purpose:** Creates an ordered or unordered list.
 - **Parameters:**
@@ -262,7 +262,7 @@ md.List([]string{"Item 1", "Item 2"}, false)
 ```
 
 
-### 8. NestedList(nestedItems [][]string, isOrdered bool)
+### 8. `NestedList(nestedItems [][]string, isOrdered bool)`
 
 - **Purpose:** Creates a nested list structure.
 - **Parameters:**
@@ -288,7 +288,7 @@ md.NestedList([][]string{
 ```
 
 
-### 9. Table(headers []string, rows [][]string, align []string)
+### 9. `Table(headers []string, rows [][]string, align []string)`
 
 - **Purpose:** Creates a Markdown table.
 - **Parameters:**
@@ -317,7 +317,7 @@ md.Table(headers, rows, []string{"left", "center"})
 ```
 
 
-### 10. Blockquote(text string)
+### 10. `Blockquote(text string)`
 - **Purpose:** Adds a blockquote to the document.
 - **Parameters:**
 - `text`: The text to include in the blockquote.
@@ -333,7 +333,7 @@ md.Table(headers, rows, []string{"left", "center"})
 ```
 
 
-### 11. HorizontalRule()
+### 11. `HorizontalRule()`
 
 - **Purpose:** Inserts a horizontal rule (line) in the document.
 - **Parameters:** None.
@@ -350,7 +350,7 @@ md.HorizontalRule()
 ```
 
 
-### 12. Footnote(ref string, content string)
+### 12. `Footnote(ref string, content string)`
 
 - **Purpose:** Adds a footnote reference to the document.
 - **Parameters:**
@@ -370,7 +370,7 @@ md.Footnote("1", "This is the footnote content.")
 ```
 
 
-### 13. MultiLineFootnote(ref string, lines []string)
+### 13. `MultiLineFootnote(ref string, lines []string)`
 
 - **Purpose:**  Adds a multi-line footnote.
 - **Parameters:**
@@ -389,7 +389,7 @@ This is the second line.
 [Return to text](#fn-1-back)
 ```
 
-### 14. DefinitionList(definitions map[string][]string)
+### 14. `DefinitionList(definitions map[string][]string)`
 
 - **Purpose:** Creates a definition list.
 - **Parameters:**
@@ -416,7 +416,7 @@ Term 2
 ```
 
 
-### 15. Escape(text string) string
+### 15. `Escape(text string) string`
 
 - **Purpose:** Escapes special Markdown characters in the given text.
 - **Parameters:**
@@ -433,7 +433,7 @@ Text with special \* characters
 ```
 
 
-### 16. CustomDiv(class string, content string)
+### 16. `CustomDiv(class string, content string)`
 
 - **Purpose:** Adds a custom div (like alerts) to the document.
 - **Parameters:**
@@ -451,7 +451,7 @@ This is an alert block.
 :::
 ```
 
-### 17. TaskList(items []string, completed []bool)
+### 17. `TaskList(items []string, completed []bool)`
 
 - **Purpose:** Creates a task list.
 - **Parameters:**
@@ -471,7 +471,7 @@ md.TaskList([]string{"Task 1", "Task 2"}, []bool{true, false})
 ```
 
 
-### 18. MermaidDiagram(code string)
+### 18. `MermaidDiagram(code string)`
 
 - **Purpose:** Inserts a Mermaid diagram into the document.
 - **Parameters:**
@@ -488,7 +488,7 @@ md.MermaidDiagram("graph TD; A-->B;")
 graph TD; A-->B;
 ``` 
 
-### 19. MathBlock(equation string)
+### 19. `MathBlock(equation string)`
 
 - **Purpose:** Adds a block of mathematical notation using LaTeX syntax.
 - **Parameters:**
@@ -506,7 +506,7 @@ E = mc^2
 $$
 
 
-### 20. Underline(text string) string
+### 20. `Underline(text string) string`
 
 - **Purpose:** Underlines the specified text.
 - **Parameters:**
@@ -525,7 +525,7 @@ underlined := md.Underline("Underlined Text")
 ```
 
 
-### 21. Subscript(text string) string
+### 21. `Subscript(text string) string`
 
 - **Purpose:** Formats the text as subscript.
 - **Parameters:**
@@ -543,7 +543,7 @@ subscripted := md.Subscript("H2O")
 ```
 
 
-### 22. Superscript(text string) string
+### 22. `Superscript(text string) string`
 
 - **Purpose:** Formats the text as superscript.
 - **Parameters:**
@@ -562,7 +562,7 @@ superscripted := md.Superscript("x2")
 ```
 
 
-### 23. ColorText(text string, color string) string
+### 23. `ColorText(text string, color string) string`
 
 - **Purpose:** Formats the text with the specified color.
 - **Parameters:**
@@ -582,7 +582,7 @@ coloredText := md.ColorText("Hello", "red")
 ```
 
 
-### 24. ToHTML() string
+### 24. `ToHTML()` string
 
 - **Purpose:** Converts the Markdown content to HTML.
 - **Parameters:** None.
@@ -599,7 +599,7 @@ html := md.ToHTML()
 ```
 
 
-### 25. GetContent() string
+### 25. `GetContent() string`
 
 - **Purpose:** Returns the current Markdown content as a string.
 - **Parameters:** None.
