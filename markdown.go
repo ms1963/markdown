@@ -1,11 +1,11 @@
 /***************** markdown package**********************************
-The Go library markdown provides functions used to create 
+The Go library make_markdown provides functions used to create 
 Markdown documents in Go programs. 
 
 It follows the guidelines for Markdown files and covers most of
 the formatting commands supported in Markdown.
 
-The library is available for public use with a MIT license.  	
+The library is available for public use with a M.I.T license.  	
 
 (c) 2024, Michael Stal			
 ********************************************************************/
@@ -19,6 +19,7 @@ import (
 )
 
 // Flavor constants for different Markdown dialects.
+// StandardMarkdown, GitHubMarkdown, JupyterMarkdown
 const (
     StandardMarkdown = iota
     GitHubMarkdown
@@ -26,6 +27,10 @@ const (
 )
 
 // Markdown manages the construction of markdown content and flavor.
+// This is the main structure on which the library operates
+// flavor: one of the constants StandardMarkdown, GitHubMarkdown, 
+// JupyterMarkdown
+// useColor: true => color is used, false => color is not used	
 type Markdown struct {
     content  strings.Builder
     flavor   int // Store the selected flavor
@@ -33,6 +38,8 @@ type Markdown struct {
 }
 
 // New initializes a new Markdown structure with the specified flavor.
+// flavor: which flavor of Markdown to use
+// useColor: Should color be used (true) or not (false) 
 func New(flavor int, useColor bool) *Markdown {
     return &Markdown{flavor: flavor, useColor: useColor}
 }
@@ -230,6 +237,27 @@ func (md *Markdown) MultiLineFootnote(label string, lines []string) {
     }
     md.content.WriteString(fmt.Sprintf("[Return to text](#fn-%s-back)\n\n", label))
 }
+
+
+/* Erraneous version
+func (md *Markdown) DefinitionList(definitions map[string][]string) {
+    if len(definitions) == 0 {
+        return // Skip empty definitions
+    }
+
+    for term, definitionsList := range definitions {
+        if term == "" || len(definitionsList) == 0 {
+            continue // Skip invalid terms
+        }
+        md.content.WriteString(fmt.Sprintf("%s\n", term))
+        for _, definition := range definitionsList {
+            md.content.WriteString(fmt.Sprintf(": %s\n", definition))
+        }
+        md.content.WriteString("\n")
+    }
+}
+*/
+
 
 // OrderedDefinition represents a term and its definitions
 type OrderedDefinition struct {
