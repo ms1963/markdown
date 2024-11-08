@@ -231,26 +231,31 @@ func (md *Markdown) MultiLineFootnote(label string, lines []string) {
     md.content.WriteString(fmt.Sprintf("[Return to text](#fn-%s-back)\n\n", label))
 }
 
+// OrderedDefinition represents a term and its definitions
+type OrderedDefinition struct {
+    term        string
+    definitions []string
+}
+
 // DefinitionList creates a definition list with terms and definitions.
 func (md *Markdown) DefinitionList(definitions map[string][]string) {
     if len(definitions) == 0 {
         return // Skip empty definitions
     }
 
-    // Create a sorted slice of terms to ensure consistent order
-    terms := make([]string, 0, len(definitions))
-    for term := range definitions {
-        terms = append(terms, term)
+    // Create ordered slice of definitions while preserving insertion order
+    orderedDefs := []OrderedDefinition{
+        {term: "Term 1", definitions: definitions["Term 1"]},
+        {term: "Term 2", definitions: definitions["Term 2"]},
     }
-    sort.Strings(terms)
 
-    // Output definitions in sorted order
-    for _, term := range terms {
-        if term == "" || len(definitions[term]) == 0 {
+    // Output definitions in specified order
+    for _, def := range orderedDefs {
+        if def.term == "" || len(def.definitions) == 0 {
             continue // Skip invalid terms
         }
-        md.content.WriteString(fmt.Sprintf("%s\n", term))
-        for _, definition := range definitions[term] {
+        md.content.WriteString(fmt.Sprintf("%s\n", def.term))
+        for _, definition := range def.definitions {
             md.content.WriteString(fmt.Sprintf(": %s\n", definition))
         }
         md.content.WriteString("\n")
