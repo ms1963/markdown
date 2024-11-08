@@ -237,12 +237,20 @@ func (md *Markdown) DefinitionList(definitions map[string][]string) {
         return // Skip empty definitions
     }
 
-    for term, definitionsList := range definitions {
-        if term == "" || len(definitionsList) == 0 {
+    // Create a sorted slice of terms to ensure consistent order
+    terms := make([]string, 0, len(definitions))
+    for term := range definitions {
+        terms = append(terms, term)
+    }
+    sort.Strings(terms)
+
+    // Output definitions in sorted order
+    for _, term := range terms {
+        if term == "" || len(definitions[term]) == 0 {
             continue // Skip invalid terms
         }
         md.content.WriteString(fmt.Sprintf("%s\n", term))
-        for _, definition := range definitionsList {
+        for _, definition := range definitions[term] {
             md.content.WriteString(fmt.Sprintf(": %s\n", definition))
         }
         md.content.WriteString("\n")
