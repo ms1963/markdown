@@ -5,11 +5,10 @@ Markdown documents in Go programs.
 It follows the guidelines for Markdown files and covers most of
 the formatting commands supported in Markdown.
 
-The library is available for public use with a M.I.T license.  	
+The library is available for public use with a M.I.T license.   
 
-(c) 2024, Michael Stal			
+(c) 2024, Michael Stal                  
 ********************************************************************/
-
 
 package markdown
 
@@ -18,36 +17,50 @@ import (
     "strings"
 )
 
-// Flavor constants for different Markdown dialects.
-// StandardMarkdown, GitHubMarkdown, JupyterMarkdown
+// Flavor constants define the Markdown dialects supported by the library.
+// These include:
+// - StandardMarkdown: Standard Markdown syntax
+// - GitHubMarkdown: GitHub-flavored Markdown (GFM)
+// - JupyterMarkdown: Markdown specific to Jupyter notebooks
 const (
     StandardMarkdown = iota
     GitHubMarkdown
     JupyterMarkdown
 )
 
-// Markdown manages the construction of markdown content and flavor.
-// This is the main structure on which the library operates
-// flavor: one of the constants StandardMarkdown, GitHubMarkdown, 
-// JupyterMarkdown
-// useColor: true => color is used, false => color is not used	
+// Markdown manages the construction of Markdown content and settings for rendering.
+// This structure holds the main content as well as options for flavor and color use.
+//
+// Fields:
+// - content: a string builder for accumulating Markdown content
+// - flavor: an integer that specifies the Markdown flavor
+// - useColor: a boolean indicating if color should be applied
 type Markdown struct {
     content  strings.Builder
-    flavor   int // Store the selected flavor
-    useColor bool // Flag to determine if color support is enabled
+    flavor   int    // Stores the selected flavor
+    useColor bool   // Flag to determine if color support is enabled
 }
 
-// New initializes a new Markdown structure with the specified flavor.
-// flavor: which flavor of Markdown to use
-// useColor: Should color be used (true) or not (false) 
+// New initializes a new Markdown instance with the specified flavor and color setting.
+//
+// Parameters:
+// - flavor: The Markdown flavor to use (StandardMarkdown, GitHubMarkdown, JupyterMarkdown)
+// - useColor: Whether or not to use color in the Markdown output
+//
+// Returns:
+// - *Markdown: A pointer to the initialized Markdown structure
 func New(flavor int, useColor bool) *Markdown {
     return &Markdown{flavor: flavor, useColor: useColor}
 }
 
-// FrontMatter adds metadata in YAML format for markdown files.
+// FrontMatter adds YAML metadata for the Markdown document. Typical keys include
+// "title", "author", and "date", which are added in a standard order.
+//
+// Parameters:
+// - metadata: A map of metadata keys to values
 func (md *Markdown) FrontMatter(metadata map[string]string) {
     md.content.WriteString("---\n")
-    keys := []string{"title", "author", "date"} // Specify the order here
+    keys := []string{"title", "author", "date"}
     for _, key := range keys {
         if value, exists := metadata[key]; exists {
             md.content.WriteString(fmt.Sprintf("%s: \"%s\"\n", key, value))
@@ -56,7 +69,13 @@ func (md *Markdown) FrontMatter(metadata map[string]string) {
     md.content.WriteString("---\n\n")
 }
 
-// Heading adds a markdown heading with an optional ID and attributes.
+// Heading inserts a Markdown heading at the specified level with optional ID and attributes.
+//
+// Parameters:
+// - level: The heading level (1-6, with 1 being the largest)
+// - text: The text for the heading
+// - id: An optional ID for linking to the heading
+// - attributes: Optional attributes for the heading, e.g., CSS classes
 func (md *Markdown) Heading(level int, text, id, attributes string) {
     if level < 1 || level > 6 {
         level = 1 // default to level 1
@@ -74,9 +93,15 @@ func (md *Markdown) Heading(level int, text, id, attributes string) {
     md.content.WriteString(header + "\n\n")
 }
 
-// ApplyFormatting applies various text formats.
+// ApplyFormatting applies multiple Markdown formatting options to the given text.
+//
+// Parameters:
+// - text: The text to format
+// - formats: A variable number of format strings, e.g., "bold", "italic"
+//
+// Returns:
+// - string: The formatted text as a Markdown string
 func (md *Markdown) ApplyFormatting(text string, formats ...string) string {
-    // Iterate in reverse to ensure the last specified format is applied first
     for i := len(formats) - 1; i >= 0; i-- {
         switch formats[i] {
         case "strikethrough":
@@ -98,7 +123,11 @@ func (md *Markdown) ApplyFormatting(text string, formats ...string) string {
     return text
 }
 
-// Paragraph adds a markdown paragraph with optional formatting.
+// Paragraph inserts a paragraph into the Markdown document with optional formatting.
+//
+// Parameters:
+// - text: The text content of the paragraph
+// - formats: Optional formatting, such as "bold" or "italic"
 func (md *Markdown) Paragraph(text string, formats ...string) {
     if text == "" {
         return // Skip empty paragraphs
@@ -107,7 +136,11 @@ func (md *Markdown) Paragraph(text string, formats ...string) {
     md.content.WriteString(formatted + "\n\n")
 }
 
-// CodeBlock adds a code block with syntax highlighting for a specified language.
+// CodeBlock inserts a code block with optional syntax highlighting for a specified language.
+//
+// Parameters:
+// - language: The programming language for syntax highlighting (e.g., "go", "python")
+// - code: The code content to include in the block
 func (md *Markdown) CodeBlock(language, code string) {
     if code == "" {
         return // Skip empty code blocks
@@ -115,7 +148,12 @@ func (md *Markdown) CodeBlock(language, code string) {
     md.content.WriteString(fmt.Sprintf("```%s\n%s\n```\n\n", language, code))
 }
 
-// ReferenceLink creates a reference link.
+// ReferenceLink creates a Markdown reference link with a label, text, and URL.
+//
+// Parameters:
+// - label: The reference label
+// - text: The visible link text
+// - url: The destination URL
 func (md *Markdown) ReferenceLink(label, text, url string) {
     if label == "" || text == "" || url == "" {
         return // Skip invalid reference links
@@ -124,7 +162,11 @@ func (md *Markdown) ReferenceLink(label, text, url string) {
     md.content.WriteString(fmt.Sprintf("[%s](%s)\n\n", text, url))
 }
 
-// Image inserts an image with alt text and source URL.
+// Image inserts an image with alt text and a source URL.
+//
+// Parameters:
+// - altText: Alternative text for the image
+// - url: The image source URL
 func (md *Markdown) Image(altText, url string) {
     if altText == "" || url == "" {
         return // Skip invalid image entries
@@ -132,7 +174,11 @@ func (md *Markdown) Image(altText, url string) {
     md.content.WriteString(fmt.Sprintf("![%s](%s)\n\n", altText, url))
 }
 
-// List generates either an unordered or ordered list based on the isOrdered flag.
+// List generates a Markdown list (ordered or unordered).
+//
+// Parameters:
+// - items: A slice of strings representing each list item
+// - isOrdered: If true, creates an ordered list; otherwise, an unordered list
 func (md *Markdown) List(items []string, isOrdered bool) {
     if len(items) == 0 {
         return // Skip empty lists
@@ -147,7 +193,11 @@ func (md *Markdown) List(items []string, isOrdered bool) {
     md.content.WriteString("\n")
 }
 
-// NestedList generates a nested list based on the input structure.
+// NestedList creates a nested list in Markdown format.
+//
+// Parameters:
+// - nestedItems: A 2D slice of strings, where each sub-slice represents a nested list
+// - isOrdered: If true, creates an ordered nested list; otherwise, unordered
 func (md *Markdown) NestedList(nestedItems [][]string, isOrdered bool) {
     if len(nestedItems) == 0 {
         return // Skip empty nested lists
@@ -170,15 +220,17 @@ func (md *Markdown) NestedList(nestedItems [][]string, isOrdered bool) {
     md.content.WriteString("\n")
 }
 
-// Table creates a markdown table with optional column alignment.
+// Table creates a Markdown table with headers, rows, and optional alignment.
+//
+// Parameters:
+// - headers: A slice of strings for the table headers
+// - rows: A 2D slice representing rows in the table
+// - align: A slice for alignment settings ("left", "center", or "right") for each column
 func (md *Markdown) Table(headers []string, rows [][]string, align []string) {
     if len(headers) == 0 || len(rows) == 0 {
         return // Skip empty tables
     }
-    // Create header line
     headerLine := "| " + strings.Join(headers, " | ") + " |\n"
-
-    // Create alignment line
     alignment := "|"
     for _, a := range align {
         switch a {
@@ -192,10 +244,7 @@ func (md *Markdown) Table(headers []string, rows [][]string, align []string) {
             alignment += "---|"
         }
     }
-
     md.content.WriteString(headerLine + alignment + "\n")
-
-    // Create rows
     for _, row := range rows {
         if len(row) != len(headers) {
             continue // Ensure rows match header count
@@ -205,7 +254,10 @@ func (md *Markdown) Table(headers []string, rows [][]string, align []string) {
     md.content.WriteString("\n")
 }
 
-// Blockquote adds a blockquote.
+// Blockquote inserts a blockquote into the Markdown content.
+//
+// Parameters:
+// - text: The text for the blockquote
 func (md *Markdown) Blockquote(text string) {
     if text == "" {
         return // Skip empty blockquotes
@@ -213,12 +265,16 @@ func (md *Markdown) Blockquote(text string) {
     md.content.WriteString("> " + text + "\n\n")
 }
 
-// HorizontalRule adds a horizontal rule.
+// HorizontalRule inserts a horizontal rule into the Markdown content.
 func (md *Markdown) HorizontalRule() {
     md.content.WriteString("---\n\n")
 }
 
-// Footnote adds a footnote with a clickable back reference.
+// Footnote adds a footnote to the Markdown content with a clickable back reference.
+//
+// Parameters:
+// - label: The label for the footnote
+// - text: The content of the footnote
 func (md *Markdown) Footnote(label, text string) {
     if label == "" || text == "" {
         return // Skip invalid footnotes
@@ -226,7 +282,11 @@ func (md *Markdown) Footnote(label, text string) {
     md.content.WriteString(fmt.Sprintf("[%s]: %s [Return to text](#fn-%s-back)\n", label, text, label))
 }
 
-// MultiLineFootnote allows multi-line footnotes.
+// MultiLineFootnote creates a multi-line footnote with a back reference.
+//
+// Parameters:
+// - label: The label for the footnote
+// - lines: A slice of strings representing lines in the footnote
 func (md *Markdown) MultiLineFootnote(label string, lines []string) {
     if label == "" || len(lines) == 0 {
         return // Skip invalid multi-line footnotes
@@ -238,46 +298,24 @@ func (md *Markdown) MultiLineFootnote(label string, lines []string) {
     md.content.WriteString(fmt.Sprintf("[Return to text](#fn-%s-back)\n\n", label))
 }
 
-
-/* Erraneous version
-func (md *Markdown) DefinitionList(definitions map[string][]string) {
-    if len(definitions) == 0 {
-        return // Skip empty definitions
-    }
-
-    for term, definitionsList := range definitions {
-        if term == "" || len(definitionsList) == 0 {
-            continue // Skip invalid terms
-        }
-        md.content.WriteString(fmt.Sprintf("%s\n", term))
-        for _, definition := range definitionsList {
-            md.content.WriteString(fmt.Sprintf(": %s\n", definition))
-        }
-        md.content.WriteString("\n")
-    }
-}
-*/
-
-
-// OrderedDefinition represents a term and its definitions
+// OrderedDefinition is a struct for holding terms and their definitions in ordered lists.
 type OrderedDefinition struct {
     term        string
     definitions []string
 }
 
-// DefinitionList creates a definition list with terms and definitions.
+// DefinitionList creates a definition list with terms and definitions in Markdown.
+//
+// Parameters:
+// - definitions: A map where each key is a term and its value is a slice of definitions
 func (md *Markdown) DefinitionList(definitions map[string][]string) {
     if len(definitions) == 0 {
         return // Skip empty definitions
     }
-
-    // Create ordered slice of definitions while preserving insertion order
     orderedDefs := []OrderedDefinition{
         {term: "Term 1", definitions: definitions["Term 1"]},
         {term: "Term 2", definitions: definitions["Term 2"]},
     }
-
-    // Output definitions in specified order
     for _, def := range orderedDefs {
         if def.term == "" || len(def.definitions) == 0 {
             continue // Skip invalid terms
@@ -290,7 +328,13 @@ func (md *Markdown) DefinitionList(definitions map[string][]string) {
     }
 }
 
-// Escape escapes special characters in Markdown text.
+// Escape escapes special characters in Markdown.
+//
+// Parameters:
+// - text: The text to escape
+//
+// Returns:
+// - string: The escaped text
 func (md *Markdown) Escape(text string) string {
     specialChars := `\\` + "`*_{[]}()#+-.!"
     for _, char := range specialChars {
@@ -299,7 +343,11 @@ func (md *Markdown) Escape(text string) string {
     return text
 }
 
-// CustomDiv adds custom div blocks for notes, warnings, etc.
+// CustomDiv creates a custom div block, often used for notes or warnings.
+//
+// Parameters:
+// - className: CSS class name for styling
+// - content: The inner content of the div
 func (md *Markdown) CustomDiv(className, content string) {
     if content == "" {
         return // Skip empty custom divs
@@ -307,7 +355,11 @@ func (md *Markdown) CustomDiv(className, content string) {
     md.content.WriteString(fmt.Sprintf("::: %s\n%s\n:::\n\n", className, content))
 }
 
-// TaskList generates a markdown task list.
+// TaskList creates a Markdown task list.
+//
+// Parameters:
+// - items: A slice of task items
+// - checked: A slice of booleans indicating completion status
 func (md *Markdown) TaskList(items []string, checked []bool) {
     if len(items) == 0 {
         return // Skip empty task lists
@@ -325,7 +377,10 @@ func (md *Markdown) TaskList(items []string, checked []bool) {
     md.content.WriteString("\n")
 }
 
-// MermaidDiagram adds support for mermaid diagrams.
+// MermaidDiagram adds a Mermaid diagram to the Markdown content.
+//
+// Parameters:
+// - diagram: The Mermaid syntax for the diagram
 func (md *Markdown) MermaidDiagram(diagram string) {
     if diagram == "" {
         return // Skip empty diagrams
@@ -333,7 +388,10 @@ func (md *Markdown) MermaidDiagram(diagram string) {
     md.content.WriteString(fmt.Sprintf("```mermaid\n%s\n```\n\n", diagram))
 }
 
-// MathBlock adds support for block math equations, compatible with KaTeX or MathJax.
+// MathBlock inserts a block math equation compatible with KaTeX or MathJax.
+//
+// Parameters:
+// - equation: The LaTeX-formatted equation string
 func (md *Markdown) MathBlock(equation string) {
     if equation == "" {
         return // Skip empty equations
@@ -341,35 +399,66 @@ func (md *Markdown) MathBlock(equation string) {
     md.content.WriteString(fmt.Sprintf("$$\n%s\n$$\n\n", equation))
 }
 
-// Underline adds an underline to the text (using HTML).
+// Underline applies an underline style to text using HTML.
+//
+// Parameters:
+// - text: The text to underline
+//
+// Returns:
+// - string: The underlined text as an HTML string
 func (md *Markdown) Underline(text string) string {
-    return fmt.Sprintf("<u>%s</u>", text) // Underline using HTML
+    return fmt.Sprintf("<u>%s</u>", text)
 }
 
-// Subscript adds subscript text.
+// Subscript applies subscript formatting to text using HTML.
+//
+// Parameters:
+// - text: The text to make subscript
+//
+// Returns:
+// - string: The subscripted text as an HTML string
 func (md *Markdown) Subscript(text string) string {
-    return fmt.Sprintf("<sub>%s</sub>", text) // Subscript using HTML
+    return fmt.Sprintf("<sub>%s</sub>", text)
 }
 
-// Superscript adds superscript text.
+// Superscript applies superscript formatting to text using HTML.
+//
+// Parameters:
+// - text: The text to make superscript
+//
+// Returns:
+// - string: The superscripted text as an HTML string
 func (md *Markdown) Superscript(text string) string {
-    return fmt.Sprintf("<sup>%s</sup>", text) // Superscript using HTML
+    return fmt.Sprintf("<sup>%s</sup>", text)
 }
 
-// ColorText adds colored text using HTML span if color support is enabled.
+// ColorText adds color to the text if color support is enabled.
+//
+// Parameters:
+// - text: The text to colorize
+// - color: The color to apply, specified as a CSS color string
+//
+// Returns:
+// - string: The text with color applied, or plain if color support is disabled
 func (md *Markdown) ColorText(text, color string) string {
     if md.useColor {
-        return fmt.Sprintf("<span style=\"color:%s\">%s</span>", color, text) // Color using HTML
+        return fmt.Sprintf("<span style=\"color:%s\">%s</span>", color, text)
     }
-    return text // No color support, return plain text
+    return text
 }
 
-// ToHTML converts the markdown content to HTML.
+// ToHTML converts the Markdown content to a basic HTML structure.
+//
+// Returns:
+// - string: The content wrapped in basic HTML tags with line breaks
 func (md *Markdown) ToHTML() string {
     return "<html>" + strings.ReplaceAll(md.GetContent(), "\n", "<br>") + "</html>"
 }
 
-// GetContent returns the complete markdown content as a string.
+// GetContent retrieves the current Markdown content as a string.
+//
+// Returns:
+// - string: The accumulated Markdown content
 func (md *Markdown) GetContent() string {
     return md.content.String()
 }
