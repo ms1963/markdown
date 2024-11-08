@@ -139,8 +139,8 @@ The API of the Markdown library is designed to provide clear and intuitive acces
 ### 1. New(flavor int, useColor bool) *Markdown
 - **Purpose**: Initializes a new Markdown object.
 - **Parameters:**:
-`flavor`: The Markdown flavor (e.g., `StandardMarkdown`).
-`useColor`: Boolean indicating if color support is enabled.
+- `flavor`: The Markdown flavor (e.g., `StandardMarkdown`).
+- `useColor`: Boolean indicating if color support is enabled.
 - **Results:**: Returns a pointer to the new `Markdown` object.
 - **Example:**:
   ```
@@ -151,7 +151,7 @@ The API of the Markdown library is designed to provide clear and intuitive acces
 ### 2. FrontMatter(metadata map[string]string)
 - **Purpose:** Adds front matter metadata in YAML format.
 - **Parameters:**
-metadata: A map of metadata key-value pairs.
+- `metadata`: A map of metadata key-value pairs.
 - **Results:** None.
 - **Example:**
 ```
@@ -175,10 +175,10 @@ date: "2024-10-14"
 ### 3. Heading(level int, text string, id string, attributes string)
 - **Purpose:** Adds a heading with optional ID and attributes.
 - **Parameters:**
-level: The heading level (1-6).
-text: The heading text.
-id: Optional ID for linking.
-attributes: Optional additional attributes.
+- `level`: The heading level (1-6).
+- `text`: The heading text.
+- `id`: Optional ID for linking.
+- `attributes`: Optional additional attributes.
 - **Results:** None.
 - **Example:**
 
@@ -195,9 +195,9 @@ md.Heading(1, "Main Title", "", "")
 ### 4. Paragraph(text string, formats ...string)
 - **Purpose:** Adds a paragraph with optional formatting.
 - **Parameters:**
-text: The paragraph text.
-formats: Optional formatting styles (e.g., “bold”).
-**Results:** None.
+- `text`: The paragraph text.
+- `formats`: Optional formatting styles (e.g., “bold”).
+- **Results:** None.
 - **Example**:
 
 ```
@@ -213,8 +213,8 @@ This is a sample paragraph with **bold** text.
 ### 5.  CodeBlock(language string, code string)
 - **Purpose:** Inserts a code block with syntax highlighting.
 - **Parameters:**
-language: Programming language for highlighting.
-code: The code to include in the block.
+- `language`: Programming language for highlighting.
+- `code`: The code to include in the block.
 - **Results**: None.
 - **Example:**
 ```
@@ -230,8 +230,8 @@ fmt.Println("Hello, Markdown!")
 ### 6. Image(altText string, url string)
 - **Purpose:** Inserts an image with alt text and URL.
 - **Parameters:**
-altText: Alternative text for the image.
-url: URL of the image source.
+- `altText`: Alternative text for the image.
+- `url`: URL of the image source.
 - **Results**: None. **
 - **Example:**
 
@@ -245,10 +245,10 @@ md.Image("Alt text", "https://example.com/image.png")
 
 ### 7. List(items []string, isOrdered bool)
 
-- Purpose: Creates an ordered or unordered list.
-- Parameters:
-items: List of items.
-isOrdered: Boolean indicating if the list is ordered.
+- **Purpose:** Creates an ordered or unordered list.
+- **Parameters:**
+- `items`: List of items.
+- `isOrdered`: Boolean indicating if the list is ordered.
 - **Results:**  None.
 - **Example:**
 ```
@@ -266,8 +266,8 @@ md.List([]string{"Item 1", "Item 2"}, false)
 
 - **Purpose:** Creates a nested list structure.
 - **Parameters:**
-nestedItems: A slice of slices of strings for nested items.
-isOrdered: Boolean indicating if the nested list is ordered.
+- `nestedItems`: A slice of slices of strings for nested items.
+- `isOrdered`: Boolean indicating if the nested list is ordered.
 - **Results:** None.
 - **Example:**
 
@@ -292,9 +292,9 @@ md.NestedList([][]string{
 
 - **Purpose:** Creates a Markdown table.
 - **Parameters:**
-headers: Column headers.
-rows: Rows of data.
-align: Alignment for each column.
+- `headers`: Column headers.
+- `rows`: Rows of data.
+- `align`: Alignment for each column.
 - **Results:** None.
 - **Example:**
 
@@ -320,7 +320,7 @@ md.Table(headers, rows, []string{"left", "center"})
 ### 10. Blockquote(text string)
 - **Purpose:** Adds a blockquote to the document.
 - **Parameters:**
-text: The text to include in the blockquote.
+- `text`: The text to include in the blockquote.
 - **Results: None.**
 - **Example:**
 
@@ -354,8 +354,8 @@ md.HorizontalRule()
 
 - **Purpose:** Adds a footnote reference to the document.
 - **Parameters:**
-ref: The reference identifier.
-content: The content of the footnote.
+- `ref`: The reference identifier.
+- `content`: The content of the footnote.
 - **Results:** None.
 - **Example:**
 
@@ -374,8 +374,8 @@ md.Footnote("1", "This is the footnote content.")
 
 - **Purpose:**  Adds a multi-line footnote.
 - **Parameters:**
-ref: The reference identifier.
-lines: The content of the footnote as a slice of strings.
+- `ref`: The reference identifier.
+- `lines`: The content of the footnote as a slice of strings.
 - **Results:**  None.
 - **Example:**
 ```
@@ -393,7 +393,7 @@ This is the second line.
 
 - **Purpose:** Creates a definition list.
 - **Parameters:**
-definitions: A map where each key is a term and each value is a slice of definitions for that term.
+- `definitions`: A map where each key is a term and each value is a slice of definitions for that term.
 - **Results:** None.
 - **Example:**
 ```
@@ -420,7 +420,7 @@ Term 2
 
 - **Purpose:** Escapes special Markdown characters in the given text.
 - **Parameters:**
-text: The text to escape.
+- `text`: The text to escape.
 - **Results:** Returns the escaped string.
 - **Example:**
 ```
@@ -437,8 +437,8 @@ Text with special \* characters
 
 - **Purpose:** Adds a custom div (like alerts) to the document.
 - **Parameters:**
-class: The CSS class for the div.
-content: The content of the div.
+- `class`: The CSS class for the div.
+- `content`: The content of the div.
 - **Results:** None.
 - **Example:**
 ```
@@ -455,8 +455,8 @@ This is an alert block.
 
 - **Purpose:** Creates a task list.
 - **Parameters:**
-items: A slice of task descriptions.
-completed: A slice of booleans indicating whether each task is completed.
+- `items`: A slice of task descriptions.
+- `completed`: A slice of booleans indicating whether each task is completed.
 - **Results:** None.
 - **Example:**
 ```
@@ -475,7 +475,7 @@ md.TaskList([]string{"Task 1", "Task 2"}, []bool{true, false})
 
 - **Purpose:** Inserts a Mermaid diagram into the document.
 - **Parameters:**
-code: The Mermaid diagram code.
+- `code`: The Mermaid diagram code.
 - **Results:** None.
 - **Example:**
 
@@ -492,7 +492,7 @@ graph TD; A-->B;
 
 - **Purpose:** Adds a block of mathematical notation using LaTeX syntax.
 - **Parameters:**
-equation: The LaTeX equation to include.
+- `equation`: The LaTeX equation to include.
 - **Results:** None.
 - **Example:**
 ```
@@ -510,7 +510,7 @@ $$
 
 - **Purpose:** Underlines the specified text.
 - **Parameters:**
-text: The text to underline.
+- `text`: The text to underline.
 - **Results:** Returns the underlined text as HTML.
 - **Example:**
 
@@ -529,7 +529,7 @@ underlined := md.Underline("Underlined Text")
 
 - **Purpose:** Formats the text as subscript.
 - **Parameters:**
-text: The text to format as subscript.
+- `text`: The text to format as subscript.
 - **Results:** Returns the subscripted text as HTML.
 - **Example:**
 ```
@@ -547,7 +547,7 @@ subscripted := md.Subscript("H2O")
 
 - **Purpose:** Formats the text as superscript.
 - **Parameters:**
-text: The text to format as superscript.
+- `text`: The text to format as superscript.
 - **Results:** Returns the superscripted text as HTML.
 - **Example:**
 
@@ -566,8 +566,8 @@ superscripted := md.Superscript("x2")
 
 - **Purpose:** Formats the text with the specified color.
 - **Parameters:**
-text: The text to color.
-color: The color name (e.g., “red”).
+- `text`: The text to color.
+- `color`: The color name (e.g., “red”).
 - **Results:** Returns the colored text as HTML.
 - **Example:**
 
